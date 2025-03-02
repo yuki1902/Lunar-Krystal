@@ -966,7 +966,7 @@ function loginHelper(appState, email, password, globalOptions, callback, prCallb
             callback(null, api);
         })
         .catch(function(e) {
-            log.error("login", e.error || e);
+            //log.error("login", e.error || e);
             callback(e);
         });
 }

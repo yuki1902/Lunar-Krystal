@@ -20,7 +20,7 @@ app.get('/', (request, response) => {
 });
 // Start the server
 app.listen(PORT, () => {
-    console.log(`[ MIRAI SECURITY ] -> Máy chủ khởi động tại port: ${PORT}`);
+    console.log(`[ SECURITY ] -> Máy chủ khởi động tại port: ${PORT}`);
 });
 
 

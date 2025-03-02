@@ -18,6 +18,7 @@
     `"""""""""""""`  '-'
 ```
 ### update 02/03/2025
+- Tối ưu pack
 - Fix nhiều lắm bạn trải nghiệm đi nhé
 ### update 28/02/2025
 - Fix quyền

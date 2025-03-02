@@ -1,7 +1,7 @@
 {
     "language": "vi",
     "DeveloperMode": false,
-    "autoCreateDB": false,
+    "autoCreateDB": true,
     "MAINTENANCE_MODE": false,
     "iconUnsend": {
         "status": true,

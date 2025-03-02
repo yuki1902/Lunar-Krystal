@@ -40,6 +40,7 @@
     "eval": "^0.1.8",
     "express": "^4.18.2",
     "fast-speedtest-api": "^0.3.2",
+    "fca-horizon-remastered": "github:KanzuXHorizon/Fca-Horizon-Remastered",
     "figlet": "^1.8.0",
     "file-size": "^1.0.0",
     "form-data": "^4.0.0",

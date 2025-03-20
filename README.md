@@ -17,6 +17,9 @@
     /:::=======:::\`\`\
     `"""""""""""""`  '-'
 ```
+### update 19/03/2025
+- Bỏ log video khỏi console
+- Fix thiếu pack
 ### update 02/03/2025
 - Tối ưu pack
 - Fix nhiều lắm bạn trải nghiệm đi nhé

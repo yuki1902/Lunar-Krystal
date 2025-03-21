@@ -8,8 +8,8 @@ const chalk = require('chalk');
 const figlet = require('figlet');
 const { execSync } = require('child_process');
 const logger = require("./utils/log.js");
-const login = require("fca-horizon-remastered"); 
-// const login = require("./includes/login");
+// const login = require("fca-horizon-remastered"); 
+const login = require("./includes/fca");
 const axios = require("axios");
 const listPackage = JSON.parse(readFileSync('./package.json')).dependencies;
 const listbuiltinModules = require("module").builtinModules;
@@ -286,13 +286,40 @@ function onBot({ models: botModel }) {
         listenerData.api = loginApiData; 
         listenerData.models = botModel;
         const listener = require('./includes/listen')(listenerData);
-
-        function listenerCallback(error, message) {
-            if (error) return logger(global.getText('mirai', 'handleListenError', JSON.stringify(error)), 'error');
-            if (['presence', 'typ', 'read_receipt'].some(data => data == message.type)) return;
-            if (global.config.DeveloperMode == !![]) console.log(message);
-            return listener(message);
-        };
+        function listenerCallback(error, event) {
+            if (error) {
+              if (JSON.stringify(error).includes("601051028565049")) {
+                const form = {
+                  av: api.getCurrentUserID(),
+                  fb_api_caller_class: "RelayModern",
+                  fb_api_req_friendly_name: "FBScrapingWarningMutation",
+                  variables: "{}",
+                  server_timestamps: "true",
+                  doc_id: "6339492849481770",
+                };
+                api.httpPost("https://www.facebook.com/api/graphql/", form, (e, i) => {
+                  const res = JSON.parse(i);
+                  if (e || res.errors) return logger("Lỗi không thể xóa cảnh cáo của facebook.", "error");
+                  if (res.data.fb_scraping_warning_clear.success) {
+                    logger("Đã vượt cảnh cáo facebook thành công.", "[ SUCCESS ] >");
+                    global.handleListen = api.listenMqtt(listenerCallback);
+                    setTimeout(() => (mqttClient.end(), connect_mqtt()), 1000 * 60 * 60 * 6);
+                  }
+                });
+              } else {
+                return logger(global.getText("mirai", "handleListenError", JSON.stringify(error)), "error");
+              }
+            }
+            if (["presence", "typ", "read_receipt"].some((data) => data === event?.type)) return;
+            if (global.config.DeveloperMode) console.log(event);
+            return listener(event);
+          }
+        // function listenerCallback(error, message) {
+        //     if (error) return logger(global.getText('mirai', 'handleListenError', JSON.stringify(error)), 'error');
+        //     if (['presence', 'typ', 'read_receipt'].some(data => data == message.type)) return;
+        //     if (global.config.DeveloperMode == !![]) console.log(message);
+        //     return listener(message);
+        // };
         global.handleListen = loginApiData.listenMqtt(listenerCallback);
         try {
         } catch (error) {
